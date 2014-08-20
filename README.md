@@ -1,5 +1,8 @@
 # Slack custom command for creating ad-hoc Google Hangouts
 
+**This was made without knowledge about [official Hangouts integration](https://issuestand.slack.com/services/2562199464).
+You can still use for experimental purposes but for work I recommend using official one.**
+
 Just type `/hangout` in any channel or direct message to create unique Hangout link.
 
 ## Installation
