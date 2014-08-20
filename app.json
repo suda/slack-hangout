@@ -1,0 +1,6 @@
+{
+  "name": "Slack Hangouts bot",
+  "description": "Custom command for Slack allowing to create Hangouts in channels",
+  "repository": "https://github.com/suda/slack-hangout",
+  "keywords": ["node", "express", "slack", "hangouts"]
+}
