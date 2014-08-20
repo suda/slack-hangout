@@ -33,13 +33,19 @@ app.get('/oauth2callback', function(req, res) {
       return;
     }
 
+    console.log('Received token: ', token);
+
     if (!token.refresh_token) {
       oauth2Client.refreshAccessToken(function(err, tokens) {
-        console.log('Refreshed tokens: ', tokens);
-        res.send(tokens);
+        if (!err) {
+          console.log('Error: ', err);
+          res.send(500, err);
+        } else {
+          console.log('Refreshed tokens: ', tokens);
+          res.send(tokens);
+        }
       });
     } else {
-      console.log('Token: ', token);
       res.send(token);
     }
   });
@@ -79,11 +85,11 @@ app.get('/', function(req, res) {
         if (event != null) {
           res.send(req.query.user_name + ' invited you to Hangout: ' + event.hangoutLink);
         } else {
-          res.status(500).send(err);
+          res.send(500, err);
         }
       });
   } else {
-    res.status(400).send('Invalid parameters');
+    res.send(400, 'Invalid parameters');
   }
 });
 
