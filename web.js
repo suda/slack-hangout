@@ -28,11 +28,11 @@ app.get('/auth', function(req, res){
 app.get('/oauth2callback', function(req, res) {
   console.log(req.query["code"]);
   oauth2Client.getToken(req.query["code"], function(err, token) {
-  if (err) {
-    console.log("error: " + err);
-    res.send(500, "Error getting token.");
-    return;
-  }
+    if (err) {
+      console.log("error: " + err);
+      res.send(500, "Error getting token.");
+      return;
+    }
 
     console.log(token);
   });
@@ -69,8 +69,11 @@ app.get('/', function(req, res) {
         },
         auth: oauth2Client
       }, function(err, event) {
-        console.log(err);
-        res.send(req.query.user_name + ' invited you to Hangout: ' + event.hangoutLink);
+        if (event != null) {
+          res.send(req.query.user_name + ' invited you to Hangout: ' + event.hangoutLink);
+        } else {
+          res.status(500).send(err);
+        }
       });
   } else {
     res.status(400).send('Invalid parameters');
