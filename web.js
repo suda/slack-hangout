@@ -29,17 +29,17 @@ app.get('/oauth2callback', function(req, res) {
   console.log(req.query["code"]);
   oauth2Client.getToken(req.query["code"], function(err, token) {
     if (err) {
-      console.log("error: " + err);
+      console.log("Error: " + err);
       res.send(500, "Error getting token.");
       return;
     }
 
     if (!token.refresh_token) {
       oauth2Client.refreshAccessToken(function(err, tokens) {
-        console.log(tokens);
+        res.send(tokens);
       });
     } else {
-      console.log(token);
+      res.send(token);
     }
   });
 });
