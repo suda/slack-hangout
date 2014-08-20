@@ -99,7 +99,7 @@ app.get('/', function(req, res) {
             if (err != null) {
               console.log('Error while posting to Slack: ' + err);
               res.send(500, err);
-            else {
+            } else {
               res.send();
             }
           });
