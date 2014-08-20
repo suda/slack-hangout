@@ -35,7 +35,12 @@ app.get('/oauth2callback', function(req, res) {
 
     console.log('Received token: ', token);
 
-    if (!token.refresh_token) {
+    if (typeof(token.refresh_token) != 'undefined') {
+      oauth2Client.credentials = {
+        access_token: token.access_token,
+        refresh_token: token.refresh_token,
+        token_type: 'Bearer'
+      };
       oauth2Client.refreshAccessToken(function(err, tokens) {
         if (!err) {
           console.log('Error: ', err);
