@@ -26,7 +26,6 @@ app.get('/auth', function(req, res){
 });
 
 app.get('/oauth2callback', function(req, res) {
-  console.log(req.query["code"]);
   oauth2Client.getToken(req.query["code"], function(err, token) {
     if (err) {
       console.log("Error: " + err);
@@ -36,9 +35,11 @@ app.get('/oauth2callback', function(req, res) {
 
     if (!token.refresh_token) {
       oauth2Client.refreshAccessToken(function(err, tokens) {
+        console.log('Refreshed tokens: ', tokens);
         res.send(tokens);
       });
     } else {
+      console.log('Token: ', token);
       res.send(token);
     }
   });
