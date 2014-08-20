@@ -26,7 +26,8 @@
     "express": "^4.8.5",
     "googleapis": "^1.0.10",
     "logfmt": "^1.1.2",
-    "moment": "^2.8.1"
+    "moment": "^2.8.1",
+    "slack-node": "0.0.92"
   },
   "engines": {
     "node": "0.10.x"

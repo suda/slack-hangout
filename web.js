@@ -5,6 +5,7 @@ var moment = require('moment');
 var google = require('googleapis');
 var calendar = google.calendar('v3');
 var OAuth2 = google.auth.OAuth2;
+var Slack = require('slack-node');
 
 var oauth2Client = oauth2Client = new OAuth2(
   process.env.CLIENT_ID,
@@ -13,6 +14,8 @@ var oauth2Client = oauth2Client = new OAuth2(
 );
 
 var googleToken = process.env.GOOGLE_TOKEN;
+
+var slack = new Slack(process.env.SLACK_API_TOKEN);
 
 app.use(logfmt.requestLogger());
 
@@ -88,7 +91,18 @@ app.get('/', function(req, res) {
         auth: oauth2Client
       }, function(err, event) {
         if (event != null) {
-          res.send(req.query.user_name + ' invited you to Hangout: ' + event.hangoutLink);
+          slack.api('chat.postMessage', {
+            channel: req.query.channel_id,
+            text: req.query.user_name + ' invites to Hangout: <' + event.hangoutLink + '>',
+            username: 'Slack Hangout'
+          }, function(err, response) {
+            if (err != null) {
+              console.log('Error while posting to Slack: ' + err);
+              res.send(500, err);
+            else {
+              res.send();
+            }
+          });
         } else {
           res.send(500, err);
         }
