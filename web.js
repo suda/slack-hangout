@@ -34,7 +34,13 @@ app.get('/oauth2callback', function(req, res) {
       return;
     }
 
-    console.log(token);
+    if (!token.refresh_token) {
+      oauth2Client.refreshAccessToken(function(err, tokens) {
+        console.log(tokens);
+      });
+    } else {
+      console.log(token);
+    }
   });
 });
 
